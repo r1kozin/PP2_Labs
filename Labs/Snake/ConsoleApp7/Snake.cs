@@ -22,12 +22,7 @@ namespace ConsoleApp7
         }
       public void Move(int dx, int dy)
         {
-            cnt++;
-            if (cnt % 20 == 0)
-            {
-                body.Add(new Point(0, 0));
-            }
-
+           
             for(int i = body.Count - 1; i > 0; i--)
             {
                 body[i].x = body[i - 1].x;
@@ -44,6 +39,17 @@ namespace ConsoleApp7
                 body[0].y = Console.WindowHeight - 1;
             if (body[0].y > Console.WindowHeight - 1)
                 body[0].y = 1;
+        }
+        public bool CanEatFood(Food food)
+        { if (food.location.x == body[0].x && food.location.y == body[0].y)
+            {
+                body.Add(new Point(body[body.Count-1].x, body[body.Count-1].y));
+                return true;
+            }
+            return false;
+
+            
+
         }
         public void Draw()
         {

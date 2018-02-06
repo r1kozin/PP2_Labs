@@ -12,6 +12,7 @@ namespace ConsoleApp7
         {
             Console.CursorVisible = false;
             Snake snake = new Snake();
+            Food food = new Food();
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -23,10 +24,15 @@ namespace ConsoleApp7
                     snake.Move(-1, 0);
                 if (keyInfo.Key == ConsoleKey.RightArrow)
                     snake.Move(1, 0);
+
+                if (snake.CanEatFood(food))
+                {
+                    food.SetRandomPosition();
+                }
                 Console.Clear();
 
                 snake.Draw();
-                
+                food.Draw();
             }
         }
     }
