@@ -18,9 +18,9 @@ namespace ConsoleApp7
             SetRandomPosition();
         }
         public void SetRandomPosition()
-        {
-            int x = new Random().Next(0, 70);
-            int y = new Random().Next(0, 20);
+        {   
+            int x = new Random().Next(2, 49);
+            int y = new Random().Next(3, 19);
             location = new Point(x, y);
         }
         public void Draw()

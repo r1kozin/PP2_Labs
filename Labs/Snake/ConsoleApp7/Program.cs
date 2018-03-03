@@ -4,36 +4,98 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 namespace ConsoleApp7
 {
     class Program
     {
+        public static int direction = 1;
+        public static int speed = 200;
+
+        static void MoveSnakeThread(object state)
+        {
+            while (!Game.GameOver)
+            {
+                switch (direction)
+                {
+                    case 1:
+                        Game.snake.Move(1, 0);
+                        break;
+                    case 2:
+                        Game.snake.Move(0, 1);
+                        break;
+                    case 3:
+                        Game.snake.Move(-1, 0);
+                        break;
+                    case 4:
+                        Game.snake.Move(0, -1);
+                        break;
+                }
+                Game.Draw();
+                Thread.Sleep(speed);
+            if (Game.snake.cnt >=0)
+                {
+                    Console.SetCursorPosition(2, 23);
+                    Console.WriteLine("Score " + Game.snake.cnt);
+                }
+
+                if (Game.snake.CollisionWithWall(Game.wall) || Game.snake.Collision())
+                {
+                    Console.Clear();
+                    Console.SetCursorPosition(10, 10);
+                    Console.WriteLine("GAME OVER");
+                    Console.ReadKey();
+
+                    Game.snake = new Snake();
+                    Game.wall = new Wall(1);
+                }
+
+            }
+
+
+
+        }
+     
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-            Snake snake = new Snake();
-            Food food = new Food();
-            while (true)
+            Game.Init();
+
+      
+            Thread t = new Thread(MoveSnakeThread);
+            t.Start();
+
+            while (!Game.GameOver)
             {
-                ConsoleKeyInfo keyInfo = Console.ReadKey();
-                 if (keyInfo.Key == ConsoleKey.UpArrow)
-                    snake.Move(0, -1);
-                if (keyInfo.Key == ConsoleKey.DownArrow)
-                    snake.Move(0, 1);
-                if (keyInfo.Key == ConsoleKey.LeftArrow)
-                    snake.Move(-1, 0);
-                if (keyInfo.Key == ConsoleKey.RightArrow)
-                    snake.Move(1, 0);
-
-                if (snake.CanEatFood(food))
+                ConsoleKeyInfo btn = Console.ReadKey();
+                switch (btn.Key)
                 {
-                    food.SetRandomPosition();
+                    case ConsoleKey.UpArrow:
+                        direction = 4;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        direction = 2;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        direction = 3;
+                        break;
+                    case ConsoleKey.RightArrow:
+                        direction = 1;
+                        break;
                 }
-                Console.Clear();
 
-                snake.Draw();
-                food.Draw();
+               
+                
+
+
+
+
             }
+
+
+
+
         }
     }
 }
+       
+

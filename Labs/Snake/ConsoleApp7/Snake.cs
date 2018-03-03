@@ -8,62 +8,94 @@ namespace ConsoleApp7
 {
     class Snake
     {
-        List<Point> body;
-        public string sign;
-        ConsoleColor  color;
-        public int cnt;
+        public int cnt=0;
+        public List<Point> body;
+        public char sign;
+        public ConsoleColor color;
         public Snake()
         {
+            sign = 'o';
+            color = ConsoleColor.Cyan;
             body = new List<Point>();
+
+            body.Add(new Point(12, 10));
+            body.Add(new Point(11, 10));
             body.Add(new Point(10, 10));
-            sign = "*";
-            color = ConsoleColor.Magenta;
-            cnt = 0;
         }
-      public void Move(int dx, int dy)
+
+        public void Move(int dx, int dy)
         {
-           
-            for(int i = body.Count - 1; i > 0; i--)
+            Point lastPoint = body[body.Count - 1];
+            Console.SetCursorPosition(lastPoint.x, lastPoint.y);
+            Console.Write(' ');
+            for (int i = body.Count - 1; i > 0; i--)
             {
                 body[i].x = body[i - 1].x;
                 body[i].y = body[i - 1].y;
-
             }
-            body[0].x += dx;
-            body[0].y += dy;
-            if (body[0].x < 1)
-                body[0].x = Console.WindowWidth - 1;
-            if (body[0].x > Console.WindowWidth - 1)
-                body[0].x = 1;
-            if (body[0].y < 1)
-                body[0].y = Console.WindowHeight - 1;
-            if (body[0].y > Console.WindowHeight - 1)
-                body[0].y = 1;
-        }
-        public bool CanEatFood(Food food)
-        { if (food.location.x == body[0].x && food.location.y == body[0].y)
+
+            body[0].x = body[0].x + dx;
+            body[0].y = body[0].y + dy;
+            if (CanEat())
             {
-                body.Add(new Point(body[body.Count-1].x, body[body.Count-1].y));
+                cnt++;
+                Game.food.SetRandomPosition();
+
+                
+            }
+
+        }
+
+        public bool CanEat()
+        {
+            if (Game.food.location.x == body[0].x && Game.food.location.y == body[0].y)
+            {
+
+                body.Add(new Point(body[body.Count - 1].x, body[body.Count - 1].y));
+                
+               
+                
                 return true;
+               
             }
             return false;
+        }
+        public bool CollisionWithWall(Wall w)
+        {
+            foreach (Point p in w.body)
+            {
+                if (p.x == body[0].x && p.y == body[0].y)
+                    return true;
+            }
+            return false;
+        }
 
-            
-
+        public bool Collision()
+        {
+            for (int i = 1; i < body.Count; i++)
+            {
+                if (body[0].x == body[i].x && body[0].y == body[i].y)
+                    return true;
+            }
+            return false;
         }
         public void Draw()
         {
-            int index = 0;
+            int i = 0;
             foreach (Point p in body)
             {
-                if (index == 0)
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                if (i == 0)
+                    Console.ForegroundColor = ConsoleColor.Red;
                 else
-                    
-                Console.ForegroundColor = color;
+                    Console.ForegroundColor = color;
                 Console.SetCursorPosition(p.x, p.y);
-                Console.WriteLine(sign);
+                Console.Write(sign);
+                i++;
             }
         }
     }
 }
+
+
+
+        
