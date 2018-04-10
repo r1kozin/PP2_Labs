@@ -8,7 +8,7 @@ using System.Threading;
 namespace ConsoleApp7
 {
     class Program
-    {
+    { public static int level = 1;
         public static int direction = 1;
         public static int speed = 200;
 
@@ -31,15 +31,18 @@ namespace ConsoleApp7
                         Game.snake.Move(0, -1);
                         break;
                 }
-                Game.Draw();
+                Game.Draw(); //if (Game.snake.cnt % 20 == 0)
+                    //speed = Math.Max(1, speed - 100);
                 Thread.Sleep(speed);
-            if (Game.snake.cnt >=0)
+               
+                if (Game.snake.cnt >=0)
                 {
                     Console.SetCursorPosition(2, 23);
                     Console.WriteLine("Score " + Game.snake.cnt);
                 }
 
-                if (Game.snake.CollisionWithWall(Game.wall) || Game.snake.Collision())
+               
+                    if (Game.snake.CollisionWithWall(Game.wall) || Game.snake.Collision())
                 {
                     Console.Clear();
                     Console.SetCursorPosition(10, 10);
@@ -83,8 +86,7 @@ namespace ConsoleApp7
                         break;
                 }
 
-               
-                
+             
 
 
 

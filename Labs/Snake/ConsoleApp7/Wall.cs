@@ -35,10 +35,16 @@ namespace ConsoleApp7
         }
         public Wall(int level)
         {
+
+
+
             body = new List<Point>();
             sign = '#';
             color = ConsoleColor.Magenta;
             LoadLevel(level);
+
+
+
         }
 
 

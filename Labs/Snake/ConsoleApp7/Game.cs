@@ -23,7 +23,9 @@ namespace ConsoleApp7
             snake = new Snake();
             food = new Food();
             wall = new Wall(level);
-        }
+
+           
+            }
 
         public static void Draw()
         {
@@ -31,6 +33,10 @@ namespace ConsoleApp7
             snake.Draw();
             food.Draw();
             wall.Draw();
+
         }
+         
+
     }
+
 }
